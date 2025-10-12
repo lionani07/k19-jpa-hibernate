@@ -1,28 +1,23 @@
 package com.lionani07.jpa_hibernate;
 
-import com.lionani07.jpa_hibernate.model.Departamento;
-import com.lionani07.jpa_hibernate.model.Estado;
-import com.lionani07.jpa_hibernate.model.Funcionario;
-import com.lionani07.jpa_hibernate.model.Governador;
-import com.lionani07.jpa_hibernate.repositories.DepartamentoRepository;
-import com.lionani07.jpa_hibernate.repositories.EstadoRepository;
-import com.lionani07.jpa_hibernate.repositories.FuncionrioRepository;
-import com.lionani07.jpa_hibernate.repositories.GovernadorRepository;
+import com.lionani07.jpa_hibernate.model.*;
+import com.lionani07.jpa_hibernate.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @SpringBootApplication
 public class JpaHibernateApplication implements CommandLineRunner {
 
 	@Autowired
-	private DepartamentoRepository departamentoRepository;
+	private ClienteRepository clienteRepository;
 
 	@Autowired
-	private FuncionrioRepository funcionrioRepository;
+	private PedidoRepository pedidoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(JpaHibernateApplication.class, args);
@@ -31,15 +26,14 @@ public class JpaHibernateApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		Funcionario funcionario = new Funcionario(null, "Funcionario 1");
+		Cliente cliente = new Cliente(null, "Cliente");
 
-		this.funcionrioRepository.save(funcionario);
+		this.clienteRepository.save(cliente);
 
-		Departamento departamento = new Departamento();
-		departamento.setNome("Departamento");
-		departamento.setFuncionarios(List.of(funcionario));
+		Pedido pedido = new Pedido();
+		pedido.setCliente(cliente);
+		pedido.setData(LocalDate.now());
 
-		this.departamentoRepository.save(departamento);
-
+		this.pedidoRepository.save(pedido);
 	}
 }
