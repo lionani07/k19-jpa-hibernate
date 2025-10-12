@@ -1,8 +1,12 @@
 package com.lionani07.jpa_hibernate;
 
+import com.lionani07.jpa_hibernate.model.Departamento;
 import com.lionani07.jpa_hibernate.model.Estado;
+import com.lionani07.jpa_hibernate.model.Funcionario;
 import com.lionani07.jpa_hibernate.model.Governador;
+import com.lionani07.jpa_hibernate.repositories.DepartamentoRepository;
 import com.lionani07.jpa_hibernate.repositories.EstadoRepository;
+import com.lionani07.jpa_hibernate.repositories.FuncionrioRepository;
 import com.lionani07.jpa_hibernate.repositories.GovernadorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -15,10 +19,10 @@ import java.util.List;
 public class JpaHibernateApplication implements CommandLineRunner {
 
 	@Autowired
-	private GovernadorRepository governadorRepository;
+	private DepartamentoRepository departamentoRepository;
 
 	@Autowired
-	private EstadoRepository estadoRepository;
+	private FuncionrioRepository funcionrioRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(JpaHibernateApplication.class, args);
@@ -27,15 +31,15 @@ public class JpaHibernateApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		Governador governador = new Governador(null, "Governado 1");
+		Funcionario funcionario = new Funcionario(null, "Funcionario 1");
 
-		this.governadorRepository.save(governador);
+		this.funcionrioRepository.save(funcionario);
 
-		Estado estado = new Estado(null, "Sao Paulo", governador);
+		Departamento departamento = new Departamento();
+		departamento.setNome("Departamento");
+		departamento.setFuncionarios(List.of(funcionario));
 
-		Estado rio = new Estado(null, "Rio de Janeiro", null);
-
-		this.estadoRepository.saveAll(List.of(estado, rio));
+		this.departamentoRepository.save(departamento);
 
 	}
 }
