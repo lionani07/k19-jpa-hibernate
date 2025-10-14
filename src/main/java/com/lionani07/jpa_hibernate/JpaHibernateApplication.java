@@ -1,7 +1,12 @@
 package com.lionani07.jpa_hibernate;
 
-import com.lionani07.jpa_hibernate.model.*;
-import com.lionani07.jpa_hibernate.repositories.*;
+import com.lionani07.jpa_hibernate.model.Autor;
+import com.lionani07.jpa_hibernate.model.Cliente;
+import com.lionani07.jpa_hibernate.model.Livro;
+import com.lionani07.jpa_hibernate.model.Pedido;
+import com.lionani07.jpa_hibernate.repositories.AutorRepository;
+import com.lionani07.jpa_hibernate.repositories.LivroRepository;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -14,10 +19,10 @@ import java.util.List;
 public class JpaHibernateApplication implements CommandLineRunner {
 
 	@Autowired
-	private ClienteRepository clienteRepository;
+	private LivroRepository livroRepository;
 
 	@Autowired
-	private PedidoRepository pedidoRepository;
+	private AutorRepository autorRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(JpaHibernateApplication.class, args);
@@ -26,14 +31,20 @@ public class JpaHibernateApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		Cliente cliente = new Cliente(null, "Cliente");
+		Autor autor = new Autor();
+		autor.setNome("Autor 1");
 
-		this.clienteRepository.save(cliente);
+		Autor autor1 = new Autor();
+		autor1.setNome("Autor 2");
 
-		Pedido pedido = new Pedido();
-		pedido.setCliente(cliente);
-		pedido.setData(LocalDate.now());
+		val autores = List.of(autor, autor1);
 
-		this.pedidoRepository.save(pedido);
+		this.autorRepository.saveAll(autores);
+
+		Livro livro = new Livro();
+		livro.setNome("Livro 1");
+		livro.setAutores(autores);
+
+		this.livroRepository.save(livro);
 	}
 }
